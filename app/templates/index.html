@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureCode Academy - Kelajakni biz bilan quring</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #28a745;
+            --primary-soft: #e8f5e9;
+            --secondary: #fdfdfd;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --bg: #ffffff;
+            --card-bg: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #2ecc71;
+            --primary-soft: #1b3a27;
+            --secondary: #121212;
+            --text-main: #f5f6fa;
+            --text-muted: #b2bec3;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Fixed Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 85px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            background: var(--primary-soft);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 80px;
+            display: flex;
+            align-items: center;
+            min-height: 90vh;
+            gap: 50px;
+        }
+
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: var(--text-main);
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 19px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+
+        .btn {
+            padding: 16px 35px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(40, 167, 69, 0.3);
+        }
+
+        .hero-img {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Illustration placeholder */
+        .hero-img svg {
+            width: 100%;
+            max-width: 500px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
+        }
+
+        /* Section Boilerplate */
+        .section {
+            padding: 100px 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        /* Grid & Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            width: 65px;
+            height: 65px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 60px;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary-soft);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+
+        .page-btn:hover:not(.active) {
+            background: var(--primary-soft);
+        }
+
+        /* Teachers UI */
+        .teacher-img {
+            width: 100%;
+            height: 250px;
+            background: #eee;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: var(--text-muted);
+        }
+
+        /* Contact Form */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        .contact-info div {
+            margin-bottom: 30px;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            color: var(--text-main);
+            outline: none;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            padding: 80px 0 40px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            list-style: none;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social a {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .social a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .bottom-bar {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+            }
+            .hero-text h1 {
+                font-size: 38px;
+            }
+            .nav-links {
+                display: none; /* In real app, add a burger menu */
+            }
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="container navbar">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i> FutureCode
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="navigate('home')" id="l-home" class="active">Asosiy</a></li>
+                <li><a onclick="navigate('courses')" id="l-courses">Kurslar</a></li>
+                <li><a onclick="navigate('teachers')" id="l-teachers">Ustozlar</a></li>
+                <li><a onclick="navigate('contact')" id="l-contact">Aloqa</a></li>
+            </ul>
+            <div class="actions">
+                <button class="theme-toggle" id="modeBtn">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn" style="padding: 10px 20px;" onclick="navigate('contact')">Kirish</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ASOSIY (HOME) -->
+    <section id="home" class="section active">
+        <div class="container hero">
+            <div class="hero-text">
+                <h1>Kelajak Kasblarini <span>Biz Bilan</span> O'rganing</h1>
+                <p>FutureCode Academy — zamonaviy IT markazi. Biz yosh avlodga dasturlash, dizayn va robototexnika sirlarini eng sodda usulda o'rgatamiz.</p>
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn" onclick="navigate('courses')">Kurslarni boshlash</button>
+                    <button class="btn" style="background: var(--primary-soft); color: var(--primary); box-shadow: none;" onclick="navigate('contact')">Maslahat olish</button>
+                </div>
+            </div>
+            <div class="hero-img">
+                <!-- SVG Illustration of a student -->
+                <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#20c997;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="250" cy="250" r="200" fill="var(--primary-soft)" />
+                    <rect x="150" y="320" width="200" height="20" rx="10" fill="#333" />
+                    <rect x="160" y="180" width="180" height="140" rx="15" fill="#f1f2f6" stroke="#333" stroke-width="8"/>
+                    <rect x="180" y="200" width="140" height="100" rx="5" fill="var(--primary)" opacity="0.2"/>
+                    <path d="M220 100 Q250 80 280 100 L300 180 L200 180 Z" fill="#ffdbac"/>
+                    <circle cx="235" cy="140" r="4" fill="#333"/>
+                    <circle cx="265" cy="140" r="4" fill="#333"/>
+                    <path d="M240 160 Q250 170 260 160" stroke="#333" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Tezkor Ta'lim</h3>
+                    <p>6 oy ichida noldan professional darajagacha yetib boring.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Amaliy Loyihalar</h3>
+                    <p>Faqat nazariya emas, balki real portfolioga ega bo'lasiz.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-certificate"></i></div>
+                    <h3>Sertifikat</h3>
+                    <p>Kurs yakunida xalqaro darajadagi sertifikatga ega bo'ling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- KURSLAR (COURSES) -->
+    <section id="courses" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Ommabop Kurslarimiz</h2>
+                <p>O'zingizga yoqqan yo'nalishni tanlang va kelajagingizni quring</p>
+            </div>
+
+            <div id="course-grid" class="grid">
+                <!-- JS will inject cards here -->
+            </div>
+
+            <div class="pagination" id="coursePagination">
+                <button class="page-btn active" onclick="loadPage(1)">1</button>
+                <button class="page-btn" onclick="loadPage(2)">2</button>
+                <button class="page-btn" onclick="loadPage(3)">3</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- USTOZLAR (TEACHERS) -->
+    <section id="teachers" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tajribali Ustozlar</h2>
+                <p>Sizga sohaning yetakchi mutaxassislari dars berishadi</p>
+            </div>
+            <div class="grid">
+                <div class="card" style="text-align: center;">
+                    <div class="teacher-img"><i class="fas fa-user-tie"></i></div>
+                    <h3>Akbar Rahmonov</h3>
+                    <p>Senior Frontend Developer</p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div class="teacher-img"><i class="fas fa-user-ninja"></i></div>
+                    <h3>Malika Sobirova</h3>
+                    <p>Python Backend Expert</p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div class="teacher-img"><i class="fas fa-user-astronaut"></i></div>
+                    <h3>Jasur Komilov</h3>
+                    <p>Robototexnika Muhandisi</p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ALOQA (CONTACT) -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Biz Bilan Bog'laning</h2>
+                <p>Savollaringiz bormi? Xabar yuboring, biz sizga yordam beramiz</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="card">
+                        <div><i class="fas fa-phone"></i> +998 71 123 45 67</div>
+                        <div><i class="fas fa-map-marker-alt"></i> Toshkent sh, Chilonzor 5-daha</div>
+                        <div><i class="fas fa-envelope"></i> info@futurecode.uz</div>
+                        <div class="social" style="margin-top: 20px;">
+                            <a href="#"><i class="fab fa-telegram"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+               <div class="contact-form">
+    <form action="{% url 'contact' %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Ismingiz" required>
+        </div>
+
+        <div class="form-group">
+            <input type="tel" name="phone_number" placeholder="Telefon raqamingiz" required>
+        </div>
+
+        <div class="form-group">
+            <textarea rows="5" name="description" placeholder="Xabaringiz..."></textarea>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%;">Yuborish</button>
+    </form>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-links">
+                <div class="footer-logo">FutureCode</div>
+                <p style="color: var(--text-muted);">Kelajak kasblarini bugun o'rganing. Sifatli va hamyonbop IT ta'limi.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Menyu</h4>
+                <li>Asosiy</li>
+                <li>Kurslar</li>
+                <li>Ustozlar</li>
+            </div>
+            <div class="footer-links">
+                <h4>Kurslar</h4>
+                <li>Frontend</li>
+                <li>Python</li>
+                <li>Robototexnika</li>
+            </div>
+            <div class="footer-links">
+                <h4>Yordam</h4>
+                <li>FAQ</li>
+                <li>Qoidalar</li>
+                <li>Aloqa</li>
+            </div>
+        </div>
+        <div class="container bottom-bar">
+            &copy; 2024 FutureCode Academy. Barcha huquqlar himoyalangan.
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Data for pagination
+        const courses = [
+            // Page 1
+            { title: "Frontend Dasturlash", icon: "fa-code", desc: "HTML, CSS, JavaScript va React orqali zamonaviy saytlar yaratish.", page: 1 },
+            { title: "Python Backend", icon: "fa-python", desc: "Ma'lumotlar bilan ishlash va kuchli server tizimlarini yaratish.", page: 1 },
+            { title: "Robototexnika", icon: "fa-robot", desc: "Arduino va turli sensorlar yordamida aqlli robotlar yasash.", page: 1 },
+            // Page 2
+            { title: "Grafik Dizayn", icon: "fa-paint-brush", desc: "Photoshop va Figma orqali brending va UI/UX sirlari.", page: 2 },
+            { title: "Mobile App (Flutter)", icon: "fa-mobile-alt", desc: "Android va iOS uchun sifatli mobil ilovalar yaratish.", page: 2 },
+            { title: "Kiber-xavfsizlik", icon: "fa-shield-alt", desc: "Tarmoqlarni himoya qilish va etika asosida buzib kirishni o'rganish.", page: 2 },
+            // Page 3
+            { title: "SMM Master", icon: "fa-bullhorn", desc: "Ijtimoiy tarmoqlar orqali biznesni rivojlantirish.", page: 3 },
+            { title: "Video Montaj", icon: "fa-video", desc: "Premiere Pro va After Effects orqali professional videolar.", page: 3 },
+            { title: "Foundation", icon: "fa-laptop-code", desc: "Dasturlash asoslari va algoritmik fikrlashni shakllantirish.", page: 3 }
+        ];
+
+        // Navigation logic
+        function navigate(id) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            // Show target
+            document.getElementById(id).classList.add('active');
+
+            // Update active link
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            document.getElementById('l-' + id).classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Pagination Logic
+        function loadPage(pageNumber) {
+            const grid = document.getElementById('course-grid');
+            grid.innerHTML = '';
+
+            const filtered = courses.filter(c => c.page === pageNumber);
+
+            filtered.forEach(course => {
+                const card = `
+                    <div class="card">
+                        <div class="card-icon"><i class="fas ${course.icon}"></i></div>
+                        <h3>${course.title}</h3>
+                        <p>${course.desc}</p>
+                        <button class="btn" style="padding: 10px 20px; font-size: 14px;" onclick="navigate('contact')">Ro'yxatdan o'tish</button>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+
+            // Update pagination buttons
+            document.querySelectorAll('.page-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === pageNumber);
+            });
+        }
+
+        // Dark Mode Logic
+        const modeBtn = document.getElementById('modeBtn');
+        const body = document.body;
+
+        modeBtn.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+
+            // Update icon
+            modeBtn.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Initialize
+        window.onload = () => {
+            loadPage(1);
+        }
+    </script>
+</body>
+</html
